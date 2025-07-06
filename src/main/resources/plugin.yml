@@ -1,0 +1,4 @@
+name: PlayerWaypointColors
+version: '1.0-SNAPSHOT'
+main: gg.iyk.playerwaypointcolors.PlayerWaypointColors
+api-version: '1.21'
