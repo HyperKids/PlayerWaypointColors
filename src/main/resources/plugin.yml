@@ -4,6 +4,7 @@ main: gg.iyk.playerwaypointcolors.PlayerWaypointColors
 api-version: '1.21'
 description: A plugin to manage player waypoint colors.
 author: HyperKids
+softdepend: [PlaceholderAPI]
 commands:
   playerwaypointcolor:
     description: Main command for PlayerWaypointColors.
@@ -18,4 +19,3 @@ permissions:
   playerwaypointcolor.help:
     description: Allows a player to see the help message.
     default: true
-

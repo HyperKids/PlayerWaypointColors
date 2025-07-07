@@ -16,6 +16,7 @@ public final class PlayerWaypointColors extends JavaPlugin {
     @Override
     public void onEnable() {
         this.adventure = BukkitAudiences.create(this);
+        saveDefaultConfig(); // Save default config if it doesn't exist
         this.configManager = new ConfigManager(this, this.adventure);
 
         // Detect Spigot vs Paper by checking for Player#setWaypointColor
@@ -36,6 +37,14 @@ public final class PlayerWaypointColors extends JavaPlugin {
 
         getCommand("playerwaypointcolor").setExecutor(new PWCCommand(this.configManager, this.waypointAdapter));
         getCommand("playerwaypointcolor").setTabCompleter(new PWCTabCompleter());
+
+        // Register PlaceholderAPI listener
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, waypointAdapter), this);
+            getLogger().info("PlaceholderAPI found! Player join listener registered.");
+        } else {
+            getLogger().info("PlaceholderAPI not found, join listener not registered.");
+        }
 
         getLogger().info("PlayerWaypointColors has been enabled!");
     }
