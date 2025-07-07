@@ -2,3 +2,20 @@ name: PlayerWaypointColors
 version: '1.0-SNAPSHOT'
 main: gg.iyk.playerwaypointcolors.PlayerWaypointColors
 api-version: '1.21'
+description: A plugin to manage player waypoint colors.
+author: HyperKids
+commands:
+  playerwaypointcolor:
+    description: Main command for PlayerWaypointColors.
+    aliases: [pwc]
+permissions:
+  playerwaypointcolor.self:
+    description: Allows a player to set, get, or reset their own color.
+    default: op
+  playerwaypointcolor.others:
+    description: Allows a player to set, get, or reset the color for other players.
+    default: op
+  playerwaypointcolor.help:
+    description: Allows a player to see the help message.
+    default: true
+

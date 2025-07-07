@@ -1,0 +1,33 @@
+# -------------------------------------------------- #
+#      PlayerWaypointColors Message Configuration    #
+# -------------------------------------------------- #
+# All messages are parsed with MiniMessage.
+# Learn more: https://docs.adventure.kyori.net/minimessage/
+
+# General plugin messages
+plugin-info: "<aqua>PlayerWaypointColor by HyperKids</aqua>"
+plugin-usage-prompt: "<gray>Use /pwc help to see all subcommands.</gray>"
+unknown-command: "<red>Unknown subcommand. Use /pwc help.</red>"
+no-permission: "<red>You do not have permission to do that.</red>"
+player-only-command: "<red>This command can only be run by a player.</red>"
+player-not-found: "<red>Player <white><player></white> not found.</red>"
+must-specify-player: "<red>You must specify a player from the console.</red>"
+
+# Color-related messages
+invalid-color: "<red>'<white><color></white>' is not a valid color.</red>"
+set-color-success: "<green>Your waypoint color has been set to <white><color></white>.</green>"
+set-other-success: "<green>Waypoint color for <white><player></white> has been set to <white><color></white>.</green>"
+get-color-self: "<yellow>Your waypoint color is <white><color></white>.</yellow>"
+get-color-other: "<yellow><player>'s waypoint color is <white><color></white>.</yellow>"
+get-color-default: "<yellow><player>'s waypoint color is default.</yellow>"
+reset-color-success: "<green>Your waypoint color has been reset.</green>"
+reset-other-success: "<green>Waypoint color for <white><player></white> has been reset.</green>"
+
+# Help message
+help-message:
+  - "<gold>--- PlayerWaypointColors Help ---</gold>"
+  - "<yellow>/pwc set <color|hex> [hex_value]</yellow> - <gray>Sets your waypoint color.</gray>"
+  - "<yellow>/pwc get [username]</yellow> - <gray>Gets a player's waypoint color.</gray>"
+  - "<yellow>/pwc reset [username]</yellow> - <gray>Resets a player's waypoint color.</gray>"
+  - "<yellow>/pwc setother <username> <color|hex> [hex_value]</yellow> - <gray>Sets another player's color.</gray>"
+
