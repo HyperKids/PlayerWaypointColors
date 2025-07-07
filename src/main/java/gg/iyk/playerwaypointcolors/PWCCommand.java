@@ -32,6 +32,10 @@ public class PWCCommand implements CommandExecutor {
 
         switch (subCommand) {
             case "help":
+                if (!sender.hasPermission("playerwaypointcolor.help")) {
+                    cfg.sendMessage(sender, "no-permission");
+                    break;
+                }
                 cfg.sendHelpMessage(sender);
                 break;
             case "set":
