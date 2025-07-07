@@ -2,33 +2,23 @@
 
 Easily customize player waypoint colors on your Minecraft server's map locator bar!
 
----
-
 ## Overview
 PlayerWaypointColors lets players set their own waypoint colors, and lets admins set colors for other players. Supports automatic player color assignment using PlaceholderAPI.
-
----
 
 ## Features
 - Assign custom hex colors to player waypoints (e.g., `#FF0000` or `FF0000` for red)
 - Simple commands for players and admins
 - Optional PlaceholderAPI integration for automatic color assignment on join
 
----
-
 ## Compatibility
 - **Minecraft:** Spigot 1.21.7, Paper 1.21.7
 - **Optional:** [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)
-
----
 
 ## Installation
 1. Download the latest `PlayerWaypointColors.jar`.
 2. Place it in your server's `plugins` folder.
 3. (Optional) Install PlaceholderAPI if you want dynamic color assignment.
 4. Start or reload your server.
-
----
 
 ## Commands & Permissions
 | Command                                          | Description                                         | Permission                   | Default |
@@ -43,8 +33,6 @@ PlayerWaypointColors lets players set their own waypoint colors, and lets admins
 
 `/pwc get` is only supported on Spigot (not on Paper) due to API limitations.
 
----
-
 ## Configuration
 The plugin creates a `config.yml` file on first run. You can:
 - Enable PlaceholderAPI integration
@@ -57,8 +45,6 @@ placeholderapi:
   variable: ""
 ```
 
----
-
 ## PlaceholderAPI Integration
 If PlaceholderAPI is installed, you can use a placeholder to automatically assign hex colors when players join. Set the variable in config.yml to your desired placeholder (e.g., `%luckperms_meta_color%`), which must return hex colors in the format `#00FF00` or `00FF00`.
 
@@ -68,9 +54,7 @@ The easiest way to do this is by using LuckPerms meta functionality.
 3. Set the config.yml option `variable` to `%luckperms_meta_color%`
 4. Save config.yml, restart your server 
 
-Alternatively, you can use the PlaceholderAPI String expansion (particularly %string_replaceCharacters_\<configuration\>_\<string\>%) to manipulate your placeholder to return a valid hex code.
-
----
+Alternatively, you can use the PlaceholderAPI String expansion (particularly `%string_replaceCharacters_<configuration>_<string>%`) to manipulate your placeholder to return a valid hex code.
 
 ## FAQ
 **Q:** The color isn't changing for a player!  
@@ -79,8 +63,6 @@ Alternatively, you can use the PlaceholderAPI String expansion (particularly %st
 **Q:** Does this work with Paper?  
 **A:** Yes, both Spigot and Paper are supported.
 
----
-
 ## Support
 If you need help, please provide:
 - Your server version
@@ -88,8 +70,6 @@ If you need help, please provide:
 - Any error messages
 
 Report bugs or request features on GitHub.
-
----
 
 ## Contributing
 Suggestions and contributions are welcome! Feel free to open an issue or pull request.
