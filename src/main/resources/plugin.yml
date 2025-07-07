@@ -1,5 +1,5 @@
 name: PlayerWaypointColors
-version: '1.0-SNAPSHOT'
+version: '1.0.0'
 main: gg.iyk.playerwaypointcolors.PlayerWaypointColors
 api-version: '1.21'
 description: A plugin to manage player waypoint colors.

@@ -60,9 +60,15 @@ placeholderapi:
 ---
 
 ## PlaceholderAPI Integration
-If PlaceholderAPI is installed, you can use a placeholder to automatically assign hex colors when players join. Set the `variable` in `config.yml` to your desired placeholder (e.g., `%luckperms_prefix%`), which must return hex colors in the format `#00FF00` or `00FF00`.
+If PlaceholderAPI is installed, you can use a placeholder to automatically assign hex colors when players join. Set the variable in config.yml to your desired placeholder (e.g., `%luckperms_meta_color%`), which must return hex colors in the format `#00FF00` or `00FF00`.
 
-Please note that it is likely you will need to use the [PlaceholderAPI String expansion](https://api.extendedclip.com/expansions/string/) (particularly `%string_replace_all%`) to ensure the placeholder returns a valid hex code. Alternatively, you can use LuckPerms functionality to set a meta key that returns a hex color retrievable at `%luckperms_meta_<meta key>%`.
+The easiest way to do this is by using LuckPerms meta functionality.  
+1. Set the permission `meta.color.#FF0000` on a group
+2. Set the config.yml option `auto-apply-on-join` to `true`
+3. Set the config.yml option `variable` to `%luckperms_meta_color%`
+4. Save config.yml, restart your server 
+
+Alternatively, you can use the PlaceholderAPI String expansion (particularly %string_replaceCharacters_\<configuration\>_\<string\>%) to manipulate your placeholder to return a valid hex code.
 
 ---
 
@@ -72,9 +78,6 @@ Please note that it is likely you will need to use the [PlaceholderAPI String ex
 
 **Q:** Does this work with Paper?  
 **A:** Yes, both Spigot and Paper are supported.
-
-**Q:** Can I use named colors or RGB?  
-**A:** Only hex codes are supported (e.g., `#00FF00` or `00FF00`).
 
 ---
 
