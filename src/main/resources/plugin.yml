@@ -3,7 +3,7 @@ version: '1.0-SNAPSHOT'
 main: gg.iyk.playerwaypointcolors.PlayerWaypointColors
 api-version: '1.21'
 description: A plugin to manage player waypoint colors.
-author: HyperKids
+author: HyperKids (Isaac)
 softdepend: [PlaceholderAPI]
 commands:
   playerwaypointcolor:

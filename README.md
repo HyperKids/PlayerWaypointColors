@@ -5,7 +5,7 @@ Easily customize player waypoint colors on your Minecraft server's map locator b
 ---
 
 ## Overview
-PlayerWaypointColors is a simple plugin for Spigot and Paper servers that lets you assign unique colors to each player's map locator.
+PlayerWaypointColors lets players set their own waypoint colors, and lets admins set colors for other players. Supports automatic player color assignment using PlaceholderAPI.
 
 ---
 
@@ -56,6 +56,13 @@ placeholderapi:
   auto-apply-on-join: false
   variable: ""
 ```
+
+---
+
+## PlaceholderAPI Integration
+If PlaceholderAPI is installed, you can use a placeholder to automatically assign hex colors when players join. Set the `variable` in `config.yml` to your desired placeholder (e.g., `%luckperms_prefix%`), which must return hex colors in the format `#00FF00` or `00FF00`.
+
+Please note that it is likely you will need to use the [PlaceholderAPI String expansion](https://api.extendedclip.com/expansions/string/) (particularly `%string_replace_all%`) to ensure the placeholder returns a valid hex code. Alternatively, you can use LuckPerms functionality to set a meta key that returns a hex color retrievable at `%luckperms_meta_<meta key>%`.
 
 ---
 

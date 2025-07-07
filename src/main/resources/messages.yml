@@ -5,7 +5,7 @@
 # Learn more: https://docs.adventure.kyori.net/minimessage/
 
 # General plugin messages
-plugin-info: "<aqua>PlayerWaypointColor by HyperKids</aqua>"
+plugin-info: "<aqua>PlayerWaypointColor by HyperKids (Isaac)</aqua>"
 plugin-usage-prompt: "<gray>Use /pwc help to see all subcommands.</gray>"
 unknown-command: "<red>Unknown subcommand. Use /pwc help.</red>"
 no-permission: "<red>You do not have permission to do that.</red>"
