@@ -1,5 +1,6 @@
 package gg.iyk.playerwaypointcolors;
 
+import gg.iyk.playerwaypointcolors.compat.WaypointAdapter;
 import gg.iyk.playerwaypointcolors.utils.ConfigManager;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
@@ -12,9 +13,11 @@ import org.bukkit.entity.Player;
 public class PWCCommand implements CommandExecutor {
 
     private final ConfigManager cfg;
+    private final WaypointAdapter waypointAdapter;
 
-    public PWCCommand(ConfigManager configManager) {
+    public PWCCommand(ConfigManager configManager, WaypointAdapter waypointAdapter) {
         this.cfg = configManager;
+        this.waypointAdapter = waypointAdapter;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class PWCCommand implements CommandExecutor {
             cfg.sendMessage(sender, "invalid-color", Placeholder.unparsed("color", args[1]));
             return;
         }
-        player.setWaypointColor(color);
+        waypointAdapter.setWaypointColor(player, color);
         cfg.sendMessage(sender, "set-color-success", Placeholder.unparsed("color", args[1].toUpperCase()));
     }
 
@@ -93,7 +96,7 @@ public class PWCCommand implements CommandExecutor {
             cfg.sendMessage(sender, "invalid-color", Placeholder.unparsed("color", args[2]));
             return;
         }
-        target.setWaypointColor(color);
+        waypointAdapter.setWaypointColor(target, color);
         cfg.sendMessage(sender, "set-other-success",
             Placeholder.unparsed("player", target.getName()),
             Placeholder.unparsed("color", args[2].toUpperCase())
@@ -125,9 +128,16 @@ public class PWCCommand implements CommandExecutor {
             return;
         }
 
-        Color color = target.getWaypointColor();
         String targetName = target.getName();
         boolean isSelf = sender.getName().equals(targetName);
+
+        Color color;
+        try {
+            color = waypointAdapter.getWaypointColor(target);
+        } catch (gg.iyk.playerwaypointcolors.compat.WaypointColorNotSupportedException ex) {
+            cfg.sendMessage(sender, "paper-not-supported");
+            return;
+        }
 
         if (color == null) {
             cfg.sendMessage(sender, "get-color-default", Placeholder.unparsed("player", targetName));
@@ -136,10 +146,7 @@ public class PWCCommand implements CommandExecutor {
             if (isSelf) {
                 cfg.sendMessage(sender, "get-color-self", Placeholder.unparsed("color", hex));
             } else {
-                cfg.sendMessage(sender, "get-color-other",
-                    Placeholder.unparsed("player", targetName),
-                    Placeholder.unparsed("color", hex)
-                );
+                cfg.sendMessage(sender, "get-color-other", Placeholder.unparsed("player", targetName), Placeholder.unparsed("color", hex));
             }
         }
     }
@@ -169,7 +176,7 @@ public class PWCCommand implements CommandExecutor {
             return;
         }
 
-        target.setWaypointColor(null); // Setting to null resets to default
+        waypointAdapter.resetWaypointColor(target);
         boolean isSelf = sender.getName().equals(target.getName());
 
         if (isSelf) {
@@ -201,4 +208,3 @@ public class PWCCommand implements CommandExecutor {
         }
     }
 }
-

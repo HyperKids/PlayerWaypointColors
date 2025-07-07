@@ -22,6 +22,7 @@ get-color-other: "<yellow><player>'s waypoint color is <white><color></white>.</
 get-color-default: "<yellow><player>'s waypoint color is default.</yellow>"
 reset-color-success: "<green>Your waypoint color has been reset.</green>"
 reset-other-success: "<green>Waypoint color for <white><player></white> has been reset.</green>"
+paper-not-supported: "<red>Getting player waypoint color is only supported on Spigot servers. On Paper, use <white>/waypoint list</white> to see player colors.</red>"
 
 # Help message
 help-message:
@@ -30,4 +31,3 @@ help-message:
   - "<yellow>/pwc get [username]</yellow> - <gray>Gets a player's waypoint color.</gray>"
   - "<yellow>/pwc reset [username]</yellow> - <gray>Resets a player's waypoint color.</gray>"
   - "<yellow>/pwc setother <username> <color|hex> [hex_value]</yellow> - <gray>Sets another player's color.</gray>"
-
