@@ -21,7 +21,7 @@ public class PaperWaypointAdapter implements WaypointAdapter {
     public void setWaypointColor(Player player, Color color) {
         // Format the color into a 6-digit hex string (RRGGBB) without the '#'
         String hexColor = String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
-        String command = "waypoint modify " + player.getName() + " color hex " + hexColor;
+        String command = "minecraft:waypoint modify " + player.getName() + " color hex " + hexColor;
 
         // Execute the command
         boolean result = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
@@ -36,7 +36,7 @@ public class PaperWaypointAdapter implements WaypointAdapter {
 
     @Override
     public void resetWaypointColor(Player player) {
-        String command = "waypoint modify " + player.getName() + " color reset";
+        String command = "minecraft:waypoint modify " + player.getName() + " color reset";
 
         // Execute the command
         boolean result = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
