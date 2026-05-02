@@ -11,3 +11,6 @@ bin
 
 # Ignore all of .idea folder
 .idea/*
+
+# Paper run files
+/run/
