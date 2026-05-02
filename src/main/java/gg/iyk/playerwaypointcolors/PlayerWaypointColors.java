@@ -3,6 +3,7 @@ package gg.iyk.playerwaypointcolors;
 import gg.iyk.playerwaypointcolors.compat.PaperWaypointAdapter;
 import gg.iyk.playerwaypointcolors.compat.SpigotWaypointAdapter;
 import gg.iyk.playerwaypointcolors.compat.WaypointAdapter;
+import gg.iyk.playerwaypointcolors.placeholder.PWCPlaceholderExpansion;
 import gg.iyk.playerwaypointcolors.utils.ConfigManager;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,10 +14,15 @@ public final class PlayerWaypointColors extends JavaPlugin {
     private ConfigManager configManager;
     private WaypointAdapter waypointAdapter;
 
+    public ConfigManager configManager() {
+        return this.configManager;
+    }
+
     @Override
     public void onEnable() {
         this.adventure = BukkitAudiences.create(this);
-        saveDefaultConfig(); // Save default config if it doesn't exist
+        // ConfigManager owns config.yml via ConfigLib — no need for saveDefaultConfig()
+        // (Bukkit's mechanism, which would write a bundled config.yml that no longer exists).
         this.configManager = new ConfigManager(this, this.adventure);
 
         // Detect Spigot vs Paper by checking for Player#setWaypointColor
@@ -38,12 +44,14 @@ public final class PlayerWaypointColors extends JavaPlugin {
         getCommand("playerwaypointcolor").setExecutor(new PWCCommand(this.configManager, this.waypointAdapter));
         getCommand("playerwaypointcolor").setTabCompleter(new PWCTabCompleter());
 
-        // Register PlaceholderAPI listener
+        // Always register the join listener — it handles both PAPI auto-apply and the default-color fallback.
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, waypointAdapter), this);
+
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, waypointAdapter), this);
-            getLogger().info("PlaceholderAPI found! Player join listener registered.");
+            new PWCPlaceholderExpansion(this, this.waypointAdapter).register();
+            getLogger().info("PlaceholderAPI found! Placeholder expansion registered.");
         } else {
-            getLogger().info("PlaceholderAPI not found, join listener not registered.");
+            getLogger().info("PlaceholderAPI not found; %pwc_color_<format>% placeholder unavailable.");
         }
 
         getLogger().info("PlayerWaypointColors has been enabled!");

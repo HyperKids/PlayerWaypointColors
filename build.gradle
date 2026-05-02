@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'gg.iyk'
-version = '1.0.1'
+version = '2.0.0'
 
 repositories {
     mavenCentral()
@@ -30,6 +30,7 @@ dependencies {
     implementation 'net.kyori:adventure-platform-bukkit:4.4.1'
     implementation 'net.kyori:adventure-text-minimessage:4.26.1'
     implementation 'net.kyori:adventure-text-serializer-plain:4.26.1'
+    implementation 'de.exlll:configlib-yaml:4.8.1'
 }
 
 tasks {

@@ -1,7 +1,10 @@
 package gg.iyk.playerwaypointcolors;
 
 import gg.iyk.playerwaypointcolors.compat.WaypointAdapter;
+import gg.iyk.playerwaypointcolors.compat.WaypointColorNotSupportedException;
+import gg.iyk.playerwaypointcolors.config.PWCConfig;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,36 +23,71 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!plugin.getConfig().getBoolean("placeholderapi.auto-apply-on-join", false)) {
-            return;
-        }
-
-        String placeholder = plugin.getConfig().getString("placeholderapi.variable", "");
-        if (placeholder.isEmpty()) {
-            return;
-        }
-
         Player player = event.getPlayer();
-        String hexColor = PlaceholderAPI.setPlaceholders(player, placeholder);
+        PWCConfig cfg = plugin.configManager().config();
 
-        // Accept 6-char hex or 7-char with leading '#'
-        if (hexColor != null) {
-            if (hexColor.matches("^[a-fA-F0-9]{6}$")) {
-                // valid 6-char hex
-            } else if (hexColor.matches("^#[a-fA-F0-9]{6}$")) {
-                hexColor = hexColor.substring(1); // strip leading '#'
-            } else {
-                plugin.getLogger().warning("The placeholder '" + placeholder + "' did not return a valid 6-character hex code.");
+        if (tryApplyFromPlaceholder(player, cfg)) return;
+
+        applyDefaultColorIfConfigured(player, cfg);
+    }
+
+    private boolean tryApplyFromPlaceholder(Player player, PWCConfig cfg) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) return false;
+        if (!cfg.placeholderapi.autoApplyOnJoin) return false;
+
+        String placeholder = cfg.placeholderapi.variable;
+        if (placeholder == null || placeholder.isEmpty()) return false;
+
+        String result = PlaceholderAPI.setPlaceholders(player, placeholder);
+        Color color = parseHex(result);
+        if (color == null) {
+            if (cfg.debug) plugin.getLogger().info("[PWC debug] PAPI placeholder '" + placeholder
+                + "' returned no valid hex for " + player.getName() + " (got: " + result + ")");
+            return false;
+        }
+
+        waypointAdapter.setWaypointColor(player, color);
+        if (cfg.debug) plugin.getLogger().info("[PWC debug] applied PAPI color to " + player.getName());
+        return true;
+    }
+
+    private void applyDefaultColorIfConfigured(Player player, PWCConfig cfg) {
+        String defaultHex = cfg.defaultColor;
+        if (defaultHex == null || defaultHex.isEmpty()) return;
+
+        Color defaultColor = parseHex(defaultHex);
+        if (defaultColor == null) {
+            plugin.getLogger().warning("Invalid default-color in config.yml: " + defaultHex);
+            return;
+        }
+
+        if (!cfg.defaultColorForce) {
+            try {
+                Color current = waypointAdapter.getWaypointColor(player);
+                if (current != null) {
+                    if (cfg.debug) plugin.getLogger().info("[PWC debug] " + player.getName()
+                        + " already has a color set; skipping default (force=false).");
+                    return;
+                }
+            } catch (WaypointColorNotSupportedException e) {
+                if (cfg.debug) plugin.getLogger().info("[PWC debug] can't read current color"
+                    + " (pre-1.21.11 Paper?); skipping default to be safe.");
                 return;
             }
-            try {
-                Color color = Color.fromRGB(Integer.parseInt(hexColor, 16));
-                waypointAdapter.setWaypointColor(player, color);
-            } catch (IllegalArgumentException e) {
-                plugin.getLogger().warning("The placeholder '" + placeholder + "' returned an invalid hex code: " + hexColor);
-            }
-        } else {
-            plugin.getLogger().warning("The placeholder '" + placeholder + "' did not return a valid 6-character hex code.");
+        }
+
+        waypointAdapter.setWaypointColor(player, defaultColor);
+        if (cfg.debug) plugin.getLogger().info("[PWC debug] applied default-color to " + player.getName());
+    }
+
+    private static Color parseHex(String raw) {
+        if (raw == null) return null;
+        String hex = raw.startsWith("#") ? raw.substring(1) : raw;
+        if (!hex.matches("^[a-fA-F0-9]{6}$")) return null;
+        try {
+            return Color.fromRGB(Integer.parseInt(hex, 16));
+        } catch (IllegalArgumentException e) {
+            return null;
         }
     }
 }
